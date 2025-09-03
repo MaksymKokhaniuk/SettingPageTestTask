@@ -11,7 +11,7 @@ import SwiftUI
 struct SettingPageTestTaskApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SettingsView()
         }
     }
 }
