@@ -25,7 +25,7 @@ struct SettingsView: View {
                 }
             }
             
-            VStack(spacing: 48) {
+            VStack(spacing: SettingsLayout.spacingBetweenContent) {
                 userInformation
                 
                 optionCell
@@ -48,20 +48,21 @@ struct SettingsView: View {
     }
     
     private var userInformation: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: SettingsLayout.spacingBetweenUserInformation) {
             userAvatar
             Text("Maksym Kokhaniuk")
         }
-        .padding(.top, 36)
+        .padding(.top, SettingsLayout.topPadding)
     }
     
     private var userAvatar: some View {
         Circle()
-            .frame(width: 72, height: 72)
+            .frame(width: SettingsLayout.defaultAvatarSize,
+                   height: SettingsLayout.defaultAvatarSize)
     }
     
     private var optionCell: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: SettingsLayout.defaultSpacing) {
             ForEach(settingsViewModel.cells.indices, id: \.self) { cell in
                 SettingCellView(model: settingsViewModel.cells[cell])
                 Divider()

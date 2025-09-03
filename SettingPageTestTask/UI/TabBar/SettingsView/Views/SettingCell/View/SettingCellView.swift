@@ -19,14 +19,16 @@ struct SettingCellView: View {
         Button {
             model.action()
         } label: {
-            HStack(spacing: 12) {
+            HStack(spacing: SettingsLayout.defaultSpacing) {
                 ZStack {
-                    RoundedRectangle(cornerRadius: 8)
+                    RoundedRectangle(cornerRadius: SettingsLayout.cornerRadius)
                         .fill(Color.blue)
-                        .frame(width: 40, height: 40)
+                        .frame(width: SettingsLayout.bgIconSize,
+                               height: SettingsLayout.bgIconSize)
                     Image(systemName: model.image)
                         .resizable()
-                        .frame(width: 16, height: 20)
+                        .frame(width: SettingsLayout.iconWidth,
+                               height: SettingsLayout.iconHeight)
                         .foregroundStyle(.white)
                 }
                 Text(model.title)
