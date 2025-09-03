@@ -43,7 +43,7 @@ enum SettingsSection {
         privacyPolicyAction: @escaping () -> Void
     ) -> SettingCellModel {
         return .init(
-            image: "info.circle",
+            image: "checkmark.shield",
             title: "Privacy Policy",
             action: privacyPolicyAction
         )
