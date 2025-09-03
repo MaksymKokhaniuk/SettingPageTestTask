@@ -33,6 +33,18 @@ struct SettingsView: View {
             }
         }
         .foregroundColor(.white)
+        .sheet(item: $settingsViewModel.selectedSheet) {
+            settingsViewModel.dismissSelectedSheet()
+        } content: { sheet in
+            switch  sheet {
+            case .privacyPolicy:
+                Text("Privacy Policy")
+            case .termsAndConditions:
+                Text("Terms and Conditions")
+            }
+            
+        }
+
     }
                 
     // MARK: - Private Component Views

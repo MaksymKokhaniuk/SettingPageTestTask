@@ -12,10 +12,27 @@ class SettingsViewModel {
     
     private(set) var cells: [SettingCellModel] = []
     
+    enum Sheet: Identifiable {
+        case termsAndConditions
+        case privacyPolicy
+        
+        var id: String {
+            switch self {
+            case .termsAndConditions:
+                return "termsAndConditions"
+            case .privacyPolicy:
+                return "privacyPolicy"
+            }
+        }
+    }
+    
+    var selectedSheet: Sheet? = nil
+    
     init() {
         setupCells()
     }
     
+    // MARK: - Option Cells
     private func setupCells() {
         cells = [
             SettingsSection.rateAppCell {
@@ -27,12 +44,29 @@ class SettingsViewModel {
             },
             
             SettingsSection.termsAndConditionsCell {
-                print("terms and conditions")
+                self.present(sheet: .termsAndConditions)
             },
             
             SettingsSection.privacyPolicyCell {
-                print("privacy policy")
+                self.present(sheet: .privacyPolicy)
             }
         ]
     }
+    
+    // MARK: - Sheets
+    func onUpdateSelectedSheet(isPresented: Bool) {
+        if !isPresented {
+            dismissSelectedSheet()
+        }
+    }
+    
+    func dismissSelectedSheet() {
+        selectedSheet = nil
+    }
+    
+    func present(sheet: Sheet) {
+        dismissSelectedSheet()
+        selectedSheet = sheet
+    }
+    
 }
