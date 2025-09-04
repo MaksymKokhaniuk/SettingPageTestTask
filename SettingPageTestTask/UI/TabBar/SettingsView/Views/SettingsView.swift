@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @State var settingsViewModel = SettingsViewModel()
+    @State var settingsViewModel: SettingsViewModel
+    @State var profileViewModel: ProfileViewModel
     
     var body: some View {
         ZStack {
@@ -33,6 +34,7 @@ struct SettingsView: View {
             }
         }
         .foregroundColor(.white)
+        // MARK: - Sheets
         .sheet(item: $settingsViewModel.selectedSheet) {
             settingsViewModel.dismissSelectedSheet()
         } content: { sheet in
@@ -42,12 +44,25 @@ struct SettingsView: View {
             case .termsAndConditions:
                 Text("Terms and Conditions")
             }
-            
+        }
+        // MARK: - Full screen cover (Paywall)
+        .fullScreenCover(isPresented: paywallBinding) {
+            PaywallView {
+                settingsViewModel.closePaywall()
+            }
+        }
+        // MARK: - Restore alert
+        .alert("Restore Purchase", isPresented: restorePurchasesBinding) {
+            restoreAlertButtons
+        } message: {
+            restoreAlertMessage
         }
 
     }
                 
     // MARK: - Private Component Views
+    
+    /// Background image for settings screen
     private var background: some View {
         Image("settings_bg")
             .resizable()
@@ -55,24 +70,27 @@ struct SettingsView: View {
             .ignoresSafeArea()
     }
     
+    /// Subscription button
     private var subscriptionButton: some View {
-        SubscriptionButton(onTap: { print("Subscription completed") })
+        SubscriptionButton(onTap: { settingsViewModel.showPaywall(true) })
     }
     
+    /// User information avatar and name
     private var userInformation: some View {
         VStack(spacing: SettingsLayout.spacingBetweenUserInformation) {
             userAvatar
-            Text("Maksym Kokhaniuk")
+            
+            Text(profileViewModel.userName)
         }
         .padding(.top, SettingsLayout.topPadding)
     }
     
+    /// Editable circular user avatar
     private var userAvatar: some View {
-        Circle()
-            .frame(width: SettingsLayout.defaultAvatarSize,
-                   height: SettingsLayout.defaultAvatarSize)
+        EditableCircularProfileImage(profileViewModel: profileViewModel)
     }
     
+    /// Settings options list
     private var optionCell: some View {
         VStack(spacing: SettingsLayout.defaultSpacing) {
             ForEach(settingsViewModel.cells.indices, id: \.self) { cell in
@@ -82,8 +100,48 @@ struct SettingsView: View {
         }
         .padding(.horizontal)
     }
+    
+    // MARK: - Private Bindings
+    
+    /// Paywall binding
+    private var paywallBinding: Binding<Bool> {
+        Binding(
+            get: { settingsViewModel.isPaywallShows },
+            set: { settingsViewModel.showPaywall($0) }
+        )
+    }
+    
+    // Restore alert binding
+    private var restorePurchasesBinding: Binding<Bool> {
+        Binding(
+            get: { settingsViewModel.isRestoreAlertShows },
+            set: { settingsViewModel.showRestoreAlert($0) }
+        )
+    }
+    
+    /// Restore alert buttons
+    @ViewBuilder
+    private var restoreAlertButtons: some View {
+        Button("Ok", role: .cancel) {
+            settingsViewModel.dismissRestoreAlert()
+        }
+    }
+    
+    /// Restore alert message
+    @ViewBuilder
+    private var restoreAlertMessage: some View {
+        if let message = settingsViewModel.restoreSuccessMessage {
+            Text(message)
+        } else if let message = settingsViewModel.restoreFailureMessage {
+            Text(message)
+        }
+    }
 }
 
 #Preview {
-    SettingsView()
+    let settingsViewModel = SettingsViewModel()
+    let profileViewModel = ProfileViewModel(profileService: MockProfileService(), userName: "Unknown User")
+    
+    SettingsView(settingsViewModel: settingsViewModel,
+                 profileViewModel: profileViewModel)
 }

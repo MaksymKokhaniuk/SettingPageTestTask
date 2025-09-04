@@ -11,7 +11,16 @@ import SwiftUI
 struct SettingPageTestTaskApp: App {
     var body: some Scene {
         WindowGroup {
-            SettingsView()
+            let profileService = LiveProfileService()
+            let profileVM = ProfileViewModel(profileService: profileService,
+                                             userName: "Test User")
+            let settingsVM = SettingsViewModel()
+            
+            
+            SettingsView(
+                settingsViewModel: settingsVM,
+                profileViewModel: profileVM
+            )
         }
     }
 }

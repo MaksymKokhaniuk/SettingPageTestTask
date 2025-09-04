@@ -11,25 +11,25 @@ import SwiftUI
 struct SettingCellView: View {
     
     //MARK: - Properties
-    
     let model: SettingCellModel
     
     // MARK: - Body
     var body: some View {
         Button {
+            // Trigger the action associated with this setting option
             model.action()
         } label: {
             HStack(spacing: SettingsLayout.defaultSpacing) {
                 ZStack {
                     RoundedRectangle(cornerRadius: SettingsLayout.cornerRadius)
-                        .fill(Color.blue)
+                        .fill(Color.settingOption)
                         .frame(width: SettingsLayout.bgIconSize,
                                height: SettingsLayout.bgIconSize)
                     Image(systemName: model.image)
                         .resizable()
                         .frame(width: SettingsLayout.iconWidth,
                                height: SettingsLayout.iconHeight)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.settingOptionIcon)
                 }
                 Text(model.title)
                     .foregroundStyle(.white)
