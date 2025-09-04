@@ -16,6 +16,11 @@
 			path = SettingPageTestTask;
 			sourceTree = "<group>";
 		};
+		506467792E688B33005EE538 /* SupportingFiles */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +37,7 @@
 		506466892E684DB5005EE538 = {
 			isa = PBXGroup;
 			children = (
+				506467792E688B33005EE538 /* SupportingFiles */,
 				506466942E684DB5005EE538 /* SettingPageTestTask */,
 				506466932E684DB5005EE538 /* Products */,
 			);
@@ -62,6 +68,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				506466942E684DB5005EE538 /* SettingPageTestTask */,
+				506467792E688B33005EE538 /* SupportingFiles */,
 			);
 			name = SettingPageTestTask;
 			packageProductDependencies = (
